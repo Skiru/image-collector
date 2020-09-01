@@ -1,0 +1,25 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $websiteUrl: '%env(IMAGE_WEBSITE_URL)%'
+            $imagesPath: '%env(IMAGE_PATH)%'
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    Predis\Client:
+        arguments:
+            ['tcp://image-collector-redis:6379']
